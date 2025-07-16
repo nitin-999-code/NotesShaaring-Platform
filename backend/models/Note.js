@@ -14,6 +14,14 @@ const noteSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  summary: {                        
+    type: String,
+    trim: true
+  },
+  content: {
+    type: String,
+    trim: true
+  },
   fileUrl: {
     type: String,
     required: true,
@@ -31,16 +39,44 @@ const noteSchema = new mongoose.Schema({
   downloadCount: {
     type: Number,
     default: 0
-  }
+  },
+  downloadedBy: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
+  likedBy: [ 
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
+    difficulty: {
+    type: String,
+    enum: ["Basic", "Intermediate", "Advanced"],
+    default: "Basic"
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'pending',
+  },
 }, {
   timestamps: true
 });
 
-// Index for search
 noteSchema.index({
   title: 'text',
   subject: 'text',
   description: 'text'
 });
+
+noteSchema.virtual('likes').get(function () {
+  return this.likedBy.length;
+});
+
+noteSchema.set('toJSON', { virtuals: true });
+noteSchema.set('toObject', { virtuals: true });
 
 module.exports = mongoose.model('Note', noteSchema);

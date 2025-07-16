@@ -1,15 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
       trim: true,
-    },
-    name: {
-      type: String,
-      trim: true,
-      unique: true, 
+      sparse: true
     },
     email: {
       type: String,
@@ -27,10 +23,23 @@ const userSchema = new mongoose.Schema(
       unique: true,
       sparse: true,
     },
+
+    bio: {
+      type: String,
+      default: "",
+    },
+    imageUrl: {
+      type: String,
+      default: "",
+    },
+    joinDate: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);
