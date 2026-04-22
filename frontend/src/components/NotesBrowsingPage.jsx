@@ -199,7 +199,7 @@ setNotes(paginatedNotes);
       
       const note = notes.find(n => n._id === noteId);
       if (note) {
-        const downloadUrl = `${API_BASE_URL}/notes/${noteId}/download-file`;
+        const downloadUrl = `${API_BASE_URL}/api/notes/${noteId}/download-file`;
         
         
         const response = await fetch(downloadUrl, {
